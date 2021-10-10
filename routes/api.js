@@ -3,14 +3,14 @@ const db = require("../models/")
 
 router.get("/workouts", (req, res) => {
     db.Workout.find(
-        {}).then(workouts => {
-            console.log(workouts)
-            workouts.forEach(workout => {
+        {}).then(workoutDB => {
+            console.log(workoutDB)
+            workoutDB.forEach(workout => {
                 let total = 0
                 workout.exercises.forEach(ex =>
                     total += ex.duration)
             })
-            res.json(workouts)
+            res.json(workoutDB)
         })
 })
 
@@ -21,8 +21,8 @@ router.put("/workouts/:id", (req, res) => {
         req.params.id,
         {
             $push: { exercises: req.body }
-        }).then(workouts => {
-            res.json(workouts)
+        }).then(workoutDB => {
+            res.json(workoutDB)
         })
 })
 
@@ -34,9 +34,9 @@ router.post("/api/workouts", (req, res) => {
 })
 
 router.get("/workouts/range", (req, res) => {
-    db.Workout.find({}).then(workouts => {
-        console.log(workouts)
-        res.json(workouts)
+    db.Workout.find({}).then(workoutDB => {
+        console.log(workoutDB)
+        res.json(workoutDB)
     })
 })
 
