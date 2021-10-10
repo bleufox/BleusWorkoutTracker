@@ -1,43 +1,21 @@
 const router = require("express").Router();
-const db = require("../models/workout.js")
+const Workout = require("../models/workout.js")
 
-router.get("/workouts", (req, res) => {
-    db.Workout.find(
-        {}).then(workoutDB => {
-            console.log(workoutDB)
-            workoutDB.forEach(workout => {
-                let total = 0
-                workout.exercises.forEach(ex =>
-                    total += ex.duration)
-            })
-            res.json(workoutDB)
-        })
-})
-
-router.put("/workouts/:id", (req, res) => {
-    console.log(req.body)
-    console.log('PUT ROUTE')
-    db.Workout.findOneAndUpdate(
-        req.params.id,
+router.get("/api/workouts/range", (req, res) => {
+    Workout.aggregate([
         {
-            $push: { exercises: req.body }
-        }).then(workoutDB => {
-            res.json(workoutDB)
+            $addFields: {
+                totalDuration: { $sum: "$exercises.duration" }
+            }
+        }
+    ])
+        .then(workoutDB => {
+            res.json(workoutDB);
         })
-})
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
 
-router.post("/api/workouts", (req, res) => {
-    db.Workout.create({}).then(workoutDB => {
-        console.log(workoutDB)
-        res.json(workoutDB)
-    })
-})
 
-router.get("/workouts/range", (req, res) => {
-    db.Workout.find({}).then(workoutDB => {
-        console.log(workoutDB)
-        res.json(workoutDB)
-    })
-})
-
-module.exports = router
+module.exports = router;
