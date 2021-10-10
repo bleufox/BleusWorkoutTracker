@@ -26,10 +26,10 @@ router.put("/workouts/:id", (req, res) => {
         })
 })
 
-router.post("/workouts", (req, res) => {
-    db.Workout.create({}).then(newWorkout => {
-        console.log(newWorkout)
-        res.json(newWorkout)
+router.post("/api/workouts", (req, res) => {
+    db.Workout.create({}).then(workoutDb => {
+        console.log(workoutDb)
+        res.json(workoutDb)
     })
 })
 
