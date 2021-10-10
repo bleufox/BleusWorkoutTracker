@@ -16,6 +16,7 @@ router.get("/workouts", (req, res) => {
 
 router.put("/workouts/:id", (req, res) => {
     console.log(req.body)
+    console.log('PUT ROUTE')
     db.Workout.findOneAndUpdate(
         req.params.id,
         {
