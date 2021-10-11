@@ -17,7 +17,6 @@ router.get("/api/workouts/range", (req, res) => {
         });
 });
 
-
 router.put("/api/workouts/:id", ({ body, params }, res) => {
     Workout.findByIdAndUpdate(
         params.id, {
